@@ -16,8 +16,8 @@ class GardenerRepository implements RepositoryInterfaces\GardenerRepositoryInter
         return User::where([ 'role_id' =>  18, 'country_id' => $countryId ])->with('customers')->orderBy( 'created_at', 'desc' )->paginate();
     }
 
-    public function getRandomGardener()
+    public function getRandomGardener( int $countryId )
     {
-        return User::where( 'role_id', 18 )->inRandomOrder()->first();
+        return User::where([ 'role_id' =>  18, 'country_id' => $countryId ])->inRandomOrder()->first();
     }
 }

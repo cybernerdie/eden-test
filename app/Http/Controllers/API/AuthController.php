@@ -62,7 +62,7 @@ class AuthController extends Controller
 
         //Assign a gardener to the new user if role of customer which is 9
         if( $newUser['role_id'] == 9 ){
-            $assignGardener = $this->assignGardener( $newUser->id );
+            $assignGardener = $this->assignGardener( $newUser );
         }
 
         $accessToken = $newUser->createToken('Auth Token')->plainTextToken;
@@ -77,16 +77,16 @@ class AuthController extends Controller
      * Role id for customer is 9
      */
 
-    public function assignGardener( $userId )
+    public function assignGardener( $user )
     {
-        $gardener = $this->gardenerRepository->getRandomGardener();
+        $gardener = $this->gardenerRepository->getRandomGardener( $user->country_id );
         $gardenerId = $gardener->id;
 
         $data = [
             'gardener_id' => $gardenerId,
         ];
 
-        $newUser = $this->userRepository->update( $userId, $data );
+        $newUser = $this->userRepository->update( $user->id, $data );
     }
 
 }

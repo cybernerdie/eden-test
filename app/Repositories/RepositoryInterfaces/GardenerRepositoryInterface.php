@@ -6,5 +6,5 @@ interface GardenerRepositoryInterface
 {
     public function getGardeners();
     public function getGardenersByCountry( int $countryId );
-    public function getRandomGardener();
+    public function getRandomGardener( int $countryId );
 }
