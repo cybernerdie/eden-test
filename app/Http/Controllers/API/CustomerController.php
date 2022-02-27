@@ -28,7 +28,7 @@ class CustomerController extends Controller
             $customers = $this->customerRepository->getCustomers();
         }
 
-        $customersResource = UserResource::collection($customers);
+        $customersResource = UserResource::collection( $customers );
         return ApiResponse::successResponseWithData($customersResource, 'Customers retrieved successfully');
     }
 

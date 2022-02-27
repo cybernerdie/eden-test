@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
@@ -35,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
             return User::where( 'role_id', 18 )->with('customers')->orderBy( 'created_at', 'desc' )->paginate();
         });
 
-        view()->share( compact('customers', 'gardeners') );
+        view()->share( compact('customers', 'gardeners' ) );
     }
 }

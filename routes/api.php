@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\GardenerController;
+use App\Http\Controllers\API\CountryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::group( [ 'middleware' => [ 'json' ] ], function () {
 
         Route::get('gardeners', [GardenerController::class, 'index']);
         Route::get('gardeners/country/{country_id}', [GardenerController::class, 'getGardenersByCountry']);
+
+        Route::get('countries', [CountryController::class, 'index']);
 
     });
 });
