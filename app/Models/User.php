@@ -58,4 +58,15 @@ class User extends Authenticatable
     {
          return Carbon::createFromFormat( 'Y-m-d H:i:s', $date )->format('M d Y');
     }
+
+    public static function boot()
+    {
+
+        parent::boot();
+
+        self::created(function ($model) {
+            Cache()->forget('customers');
+            Cache()->forget('gardeners');
+        });
+    }
 }
