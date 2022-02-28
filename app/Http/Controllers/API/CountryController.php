@@ -22,6 +22,6 @@ class CountryController extends Controller
     {
         $countries = $this->countryRepository->getCountries();
         $countriesResource = CountryResource::collection( $countries );
-        return ApiResponse::successResponseWithData($countriesResource, 'Countries retrieved successfully');
+        return ApiResponse::successResponseWithData( $countriesResource, 'Countries retrieved successfully' );
     }
 }
