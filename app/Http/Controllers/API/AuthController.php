@@ -68,7 +68,7 @@ class AuthController extends Controller
         $accessToken = $newUser->createToken('Auth Token')->plainTextToken;
         $user = new UserResource( $newUser );
 
-        return ApiResponse::successResponseWithToken( $user, 'Registration successful', 200, $accessToken );
+        return ApiResponse::successResponseWithToken( $user, 'Registration successful', 203, $accessToken );
 
     }
 

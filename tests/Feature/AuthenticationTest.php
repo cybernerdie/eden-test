@@ -24,6 +24,7 @@ class AuthenticationTest extends TestCase
                     "email" => ["The email field is required."],
                     "location" => ["The location field is required."],
                     "role_id" => ["The role id field is required."],
+                    "country_id" => ["The country id field is required."],
                     "password" => ["The password field is required."],
 
                 ]
@@ -43,18 +44,65 @@ class AuthenticationTest extends TestCase
             ]);
     }
 
-    public function testUserDuplication()
+    public function testRegister()
     {
-        $user1 = User::make([
-            'fullname' => 'John Doe',
-            'email' => 'jdoe@gmail.com'
+        $response = $this->json('POST', '/api/register', [
+            'fullname'  => $fullname = 'John Doe',
+            'email'  => $email = 'jdoe@gmail.com',
+            'password'  =>  $password = '123456789',
+            'country_id' => $countryID = 1,
+            'role_id' => $roleId = 9,
+            'location' => $location = 'Lagos',
+            'email_verified_at' => now(),
         ]);
 
-        $user2 = User::make([
-            'fullname' => 'Mary Doe',
-            'email' => 'mdoe@gmail.com'
+        $response->assertStatus(203);
+
+        $response->assertJson([
+            "success" => true,
+            "message" => "Registration successful",
         ]);
 
-        $this->assertTrue($user1->fullname != $user2->fullname);
+        $this->assertDatabaseHas('users', [
+            'fullname' => $fullname,
+            'email' => $email,
+            'country_id' => $countryID,
+            'role_id' => $roleId,
+            'location' => $location,
+        ]);
+
+    }
+
+    public function testLogin()
+    {
+        $response = $this->json('POST', '/api/login', [
+            'email'  =>  'jdoe@gmail.com',
+            'password'  =>  '123456789'
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+            "success" => true,
+            "message" => "Login successful",
+        ]);
+    }
+
+    public function testWrongLoginCredentials()
+    {
+        $response = $this->json('POST', '/api/login', [
+            'email'  =>  'jdoe@gmail.com',
+            'password'  =>  'password'
+        ]);
+
+        $response->assertStatus(400);
+
+        $response->assertJson([
+            "success" => false,
+            "message" => "Invalid Login credentials",
+        ]);
+
+         // Delete user
+         User::where('email','jdoe@gmail.com')->delete();
     }
 }

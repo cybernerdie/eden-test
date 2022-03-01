@@ -1,14 +1,13 @@
 <?php
 
 namespace Tests\Feature;
-use Illuminate\Http\Response;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Tests\TestCase;
 
-class CountryTest extends TestCase
+class CountryCustomer extends TestCase
 {
 
     /**
@@ -16,6 +15,7 @@ class CountryTest extends TestCase
      *
      * @return void
      */
+
     protected function authenticate()
     {
         $user = User::create([
@@ -35,28 +35,27 @@ class CountryTest extends TestCase
     }
 
     /**
-     * Get list of countries.
+     * Get list of gardeners for a country.
      *
      * @return void
      */
 
-    public function testCountryList()
+    public function testCountryGardenersList()
     {
         $token = $this->authenticate();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
-        ])->json('GET','/api/countries');
+        ])->json('GET','gardeners/country/2');
 
         $response->assertStatus(200);
 
         $response->assertJson([
             "success" => true,
-            "message" => "Countries retrieved successfully",
+            "message" => "Gardeners retrieved successfully",
         ]);
 
         // Delete user
         User::where('email','jdoe@gmail.com')->delete();
     }
-
 }
